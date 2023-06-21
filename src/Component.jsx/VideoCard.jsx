@@ -1,25 +1,22 @@
-import React from "react";
-import useVideoCard from "../utils/useVideoCard";
-
-const VideoCard = () => {
-  const videoCardData = useVideoCard();
-  console.log(videoCardData);
-
+import { Link } from "react-router-dom";
+const VideoCard = ({ info }) => {
   return (
-    <div className="flex flex-wrap m-2 gap-5 ">
-      {videoCardData &&
-        videoCardData?.map((videoItem) => (
-          <div className="flex flex-col flex-wrap w-72 shadow-lg ">
-            <img src={videoItem?.snippet?.thumbnails?.medium?.url} className="rounded-lg"/>
-            {/* <h1>{videoItem?.snippet?.categoryId}</h1> */}
-            <ul>
-              <li className="font-bold py-2">{videoItem?.snippet?.title}</li>
-              <li>{videoItem?.snippet?.channelTitle}</li>
-              <li>{videoItem?.statistics?.viewCount} views </li>
-            </ul>
-          </div>
-        ))}
-    </div>
+    
+      <div className=" w-[331px]">
+        <img
+          src={info?.snippet?.thumbnails?.medium?.url}
+          className="rounded-lg"
+        />
+
+        <ul className="mt-2">
+          <li className="font-bold line-clamp-1">{info?.snippet?.title}</li>
+          <li>{info?.snippet?.channelTitle}</li>
+          <li className="text-sm">
+            {info?.statistics?.viewCount} <span className="text-lg">views</span>{" "}
+          </li>
+        </ul>
+      </div>
+   
   );
 };
 

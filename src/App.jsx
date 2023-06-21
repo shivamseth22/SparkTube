@@ -1,37 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Header from './Component.jsx/Header';
-import Body from './Component.jsx/Body';
-import { Provider } from 'react-redux';
-import store from './utils/store';
+import Header from "./Component.jsx/Header";
+import Body from "./Component.jsx/Body";
+import { Provider } from "react-redux";
+import store from "./utils/store";
+import MainContainer from "./Component.jsx/MainContainer";
+import WatchPage from "./Component.jsx/WatchPage";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <Body/>,
+    children: [
+      {
+        path: "/",
+        element: <MainContainer />,
+      },
+      {
+        path: "watch",
+        element: <WatchPage />,
+      },
+      {
+        path: "/Home",
+        element: <MainContainer/>,
+      },
+      
+    ],
+  },
+]);
 
-const App = ()=> {
- 
-
+const App = () => {
   return (
     <Provider store={store}>
-    <div>
-      <Header/>
-      <Body/>
-      
-      {/* 
-      * Header
-      * Body
-            sidebar
-              MneuItem
-            MainContainer
-              ButtonList
-              VideoCOntainer
-                  VideoCard
-      *
-      *
-      */}
+      <div>
+        <Header />
+        <RouterProvider router={appRouter} />
       </div>
-       
     </Provider>
-  )
-}
+  );
+};
 
 export default App;
