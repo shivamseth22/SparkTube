@@ -8,8 +8,8 @@ const VideoCard = ({ info }) => {
           className="rounded-lg"
         />
 
-        <ul className="mt-2">
-          <li className="font-bold line-clamp-1">{info?.snippet?.title}</li>
+        <ul className="">
+          <li className="font-bold line-clamp-1 mt-2">{info?.snippet?.title}</li>
           <li>{info?.snippet?.channelTitle}</li>
           <li className="text-sm">
             {info?.statistics?.viewCount} <span className="text-lg">views</span>{" "}
