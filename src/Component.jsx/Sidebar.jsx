@@ -1,32 +1,29 @@
 import React from "react";
 import { AiFillHome } from "react-icons/ai";
-import {BsFillFilePlayFill} from "react-icons/bs";
+import { BsFillFilePlayFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import {BsCollectionPlay} from "react-icons/bs";
-import {Link} from "react-router-dom";
+import { BsCollectionPlay } from "react-icons/bs";
+import { Link } from "react-router-dom";
 function Sidebar() {
+  const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
+  // Early return
+  if (!isMenuOpen) return null;
 
-    const isMenuOpen = useSelector(store =>store.app.isMenuOpen) 
-    // Early return
-    if(!isMenuOpen) return null ; 
-
-    return (
-    <div className=" flex flex-col gap-5 shadow-lg  px-10 p-5">
+  return (
+    <div className=" flex flex-col gap-5 shadow-lg  px-10 p-5 sm:hidden">
       <ul className="flex flex-col gap-2">
-        
-        <Link to="/Home"  className="flex items-center gap-3 text-lg">
+        <Link to="/Home" className="flex items-center gap-3 text-lg">
           <AiFillHome />
           <li>Home</li>
-          </Link>
-       
+        </Link>
 
         <div className="flex items-center gap-3 text-lg">
-          <BsFillFilePlayFill  />
+          <BsFillFilePlayFill />
           <li>Short</li>
         </div>
         <div className="flex items-center gap-3 text-lg ">
-        <BsCollectionPlay/>
-        <li>Subscription</li>
+          <BsCollectionPlay />
+          <li>Subscription</li>
         </div>
       </ul>
       <ul className="flex flex-col gap-4">

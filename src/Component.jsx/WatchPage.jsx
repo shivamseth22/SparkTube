@@ -11,6 +11,7 @@ const WatchPage = () => {
     dispatch(closeMenu());
   });
   return (
+    <>
     <div className="">
       <iframe
         width="1000"
@@ -21,7 +22,10 @@ const WatchPage = () => {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
       ></iframe>
+  
+
     </div>
+    </>
   );
 };
 
