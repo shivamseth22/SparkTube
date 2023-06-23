@@ -8,6 +8,8 @@ export default {
   ],
   theme: {
     extend: {},
+    screens: {
+      'sm': {'min': '20px', 'max': '500px'},},
   },
   plugins: [],
 }
