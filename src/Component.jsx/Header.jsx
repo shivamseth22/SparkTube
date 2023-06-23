@@ -2,31 +2,45 @@ import React, { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import { cacheResults } from "../utils/searchSlice";
 
 function Header() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [suggestion , setSuggestion] = useState([]);
-  const [showSuggestionPage , setShowSuggestionPage] =useState(false)
-  console.log(searchQuery);
+  const [suggestion, setSuggestion] = useState([]);
+  const [showSuggestionPage, setShowSuggestionPage] = useState(false);
+
+  const searchCache = useSelector((store) => store.search);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const timer = setTimeout(() => getSearchSuggestion(), 200);
+    const timer = setTimeout(() => {
+      if (searchCache[searchQuery]) {
+        setSuggestion(searchCache[searchQuery]);
+      } else {
+        getSearchSuggestions();
+      }
+    }, 200);
 
     return () => {
       clearInterval(timer);
     };
   }, [searchQuery]);
 
-  const getSearchSuggestion = async () => {
+  const getSearchSuggestions = async () => {
+    console.log("shivammmmmm");
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
-    setSuggestion(json[1])
-  };
+    setSuggestion(json[1]);
 
-  const dispatch = useDispatch();
+    dispatch(
+      cacheResults({
+        [searchQuery]: json[1],
+      })
+    );
+  };
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -45,23 +59,27 @@ function Header() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onFocus={()=>setShowSuggestionPage(true)}
-            onBlur={()=>setShowSuggestionPage(flase)}
+            onFocus={() => setShowSuggestionPage(true)}
+            onBlur={() => setShowSuggestionPage(flase)}
             className="text-slate-950 w-96  rounded-l-full pl-5 z-10 outline-none"
           />
           <SearchIcon className=" text-slate-950 rounded-r-full bg-slate-200 " />
-          </div>
+        </div>
 
         <div className="fixed bg-white py-2 px-2 text-black   w-[375px] z-1 border border-gray-100 shadow-md 200 rounded-b-md ml-2">
-          {showSuggestionPage&&<ul>
-          {
-            suggestion&&suggestion.map((s , index)=>(
-            <li key={index} className="hover:bg-gray-100"><SearchIcon/>{s}</li>
-          ))}
-          </ul>}
-          </div>
-        
+          {showSuggestionPage && (
+            <ul>
+              {suggestion &&
+                suggestion.map((s, index) => (
+                  <li key={index} className="hover:bg-gray-100">
+                    <SearchIcon />
+                    {s}
+                  </li>
+                ))}
+            </ul>
+          )}
         </div>
+      </div>
       <div>
         <PersonIcon />
       </div>
